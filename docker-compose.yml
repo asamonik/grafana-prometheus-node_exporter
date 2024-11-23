@@ -1,0 +1,12 @@
+services:
+  grafana:
+    build: .
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin2
+      - TUNNEL_TOKEN=abcdefg
+    tty: true
+    stdin_open: true
+    volumes:
+      - /:/host:ro,rslave
+    pid: "host"
+    restart: unless-stopped
