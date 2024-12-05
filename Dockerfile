@@ -18,8 +18,6 @@ ARG PROMETHEUS_VERSION=3.0.0
 ARG NODE_EXPORTER_VERSION=1.8.2
 ARG GRAFANA_VERSION=11.3.1
 
-ENV TUNNEL_TOKEN=undefined
-
 # prometheus
 RUN wget https://github.com/prometheus/prometheus/releases/download/v${PROMETHEUS_VERSION}/prometheus-${PROMETHEUS_VERSION}.linux-amd64.tar.gz \
     && tar -xvf prometheus-${PROMETHEUS_VERSION}.linux-amd64.tar.gz \
@@ -44,12 +42,7 @@ COPY ./prometheus.yml /opt/prometheus/prometheus.yml
 COPY ./provisioning /opt/grafana/conf/provisioning
 COPY ./dashboards /opt/grafana/conf/dashboards
 
-# cloudflare
-RUN curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb \
-    && dpkg -i cloudflared.deb 
-
 CMD ["/bin/bash", "-c", " \
     /opt/node_exporter/node_exporter --path.procfs=/host/proc & \
     /opt/prometheus/prometheus --config.file=/opt/prometheus/prometheus.yml --storage.tsdb.path=/opt/prometheus/data & \
-    GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD} /opt/grafana/bin/grafana-server --homepath=/opt/grafana & \
-    cloudflared tunnel --no-autoupdate run --token ${TUNNEL_TOKEN} --hello-world"]
+    GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD} /opt/grafana/bin/grafana-server --homepath=/opt/grafana ]

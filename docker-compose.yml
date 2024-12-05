@@ -2,8 +2,7 @@ services:
   grafana:
     build: .
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin2
-      - TUNNEL_TOKEN=abcdefg
+      - GF_SECURITY_ADMIN_PASSWORD=secure_admin_password
     tty: true
     stdin_open: true
     volumes:
