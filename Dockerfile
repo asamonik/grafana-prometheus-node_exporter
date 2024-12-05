@@ -45,4 +45,4 @@ COPY ./dashboards /opt/grafana/conf/dashboards
 CMD ["/bin/bash", "-c", " \
     /opt/node_exporter/node_exporter --path.procfs=/host/proc & \
     /opt/prometheus/prometheus --config.file=/opt/prometheus/prometheus.yml --storage.tsdb.path=/opt/prometheus/data & \
-    GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD} /opt/grafana/bin/grafana-server --homepath=/opt/grafana ]
+    GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD} /opt/grafana/bin/grafana-server --homepath=/opt/grafana" ]
